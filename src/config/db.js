@@ -13,9 +13,9 @@ const pool = new Pool(
     ? {
         connectionString: process.env.DATABASE_URL,
         ssl: { rejectUnauthorized: false },
-        max: 20,
-        min: 2,
-        idleTimeoutMillis: 30000,
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 10000,
         connectionTimeoutMillis: 5000,
       }
     : {
@@ -37,7 +37,7 @@ pool.on('connect', (client) => {
 
 pool.on('error', (err, client) => {
   console.error('[DB] Unexpected error on idle client:', err.message);
-  process.exit(-1);
+  // process.exit removed — Neon free tier idle timeouts pe crash nahi karega
 });
 
 export const query = (text, params) => pool.query(text, params);
