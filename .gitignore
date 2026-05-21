@@ -1,4 +1,18 @@
+# ── Dependencies ─────────────────────────────────────────────
 node_modules/
+
+# ── Environment / secrets ─────────────────────────────────────
+# NEVER commit — contains DB password, JWT_SECRET, Google OAuth secret
 .env
 .env.local
+.env.*.local
+
+# ── Database dumps ────────────────────────────────────────────
+*.sql
+*.dump
 backup.sql
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
