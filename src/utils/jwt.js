@@ -73,10 +73,13 @@ export const verifyRefreshToken = (token) => {
  *   secure    → HTTPS-only in production
  */
 export const setRefreshCookie = (res, refreshToken) => {
+  const prod = process.env.NODE_ENV === 'production';
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
-    sameSite: 'lax',
-    secure:   process.env.NODE_ENV === 'production',
+    // In production frontend (Vercel) and backend (Render) are different origins.
+    // sameSite:'none' + secure:true is required for cross-site cookies to be sent.
+    sameSite: prod ? 'none' : 'lax',
+    secure:   prod,
     maxAge:   7 * 24 * 60 * 60 * 1000,   // 7 days in ms
   });
 };
@@ -87,9 +90,10 @@ export const setRefreshCookie = (res, refreshToken) => {
  * the browser will not delete the cookie.
  */
 export const clearRefreshCookie = (res) => {
+  const prod = process.env.NODE_ENV === 'production';
   res.clearCookie('refreshToken', {
     httpOnly: true,
-    sameSite: 'lax',
-    secure:   process.env.NODE_ENV === 'production',
+    sameSite: prod ? 'none' : 'lax',
+    secure:   prod,
   });
 };

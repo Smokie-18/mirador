@@ -18,6 +18,10 @@ dotenv.config();
 
 const app = express();
 
+// Trust Render/Railway/etc reverse proxy so req.protocol === 'https'
+// and Passport builds the correct callback URL for Google OAuth.
+app.set('trust proxy', 1);
+
 // ── Middleware stack ──────────────────────────────────────────
 app.use(helmet());
 app.use(morgan('dev'));
